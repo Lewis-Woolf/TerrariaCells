@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -11,7 +12,8 @@ using TerrariaCells.Common.GlobalNPCs;
 using TerrariaCells.Common.GlobalProjectiles;
 using TerrariaCells.Common.Items;
 using TerrariaCells.Common.ModPlayers;
-
+using TerrariaCells.Common.Systems;
+using TerrariaCells.Common.Utilities;
 using static Terraria.GameContent.Animations.IL_Actions.NPCs;
 
 namespace TerrariaCells.Common.GlobalItems;
@@ -122,32 +124,9 @@ public partial class FunkyModifierItemModifier : GlobalItem
 
     public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
     {
-        if (!item.TryGetGlobalItem(out FunkyModifierItemModifier funkyModifiers))
+        for (int i = 0; i < modifiers.Length; i++)
         {
-            return;
-        }
-        FunkyModifier[] array = funkyModifiers.modifiers ?? [];
-        for (int i = 0; i < array.Length; i++)
-        {
-            FunkyModifier modifier = array[i];
-            int index = tooltips.FindIndex(x => x.Name == "PrefixDamage");
-            if (index == -1)
-            {
-                tooltips.Add(
-                    new TooltipLine(Mod, "FunkyModifier" + i.ToString(), modifier.ToString())
-                    {
-                        IsModifier = true,
-                    }
-                );
-                continue;
-            }
-            tooltips.Insert(
-                index,
-                new TooltipLine(Mod, "FunkyModifier" + i.ToString(), modifier.ToString())
-                {
-                    IsModifier = true,
-                }
-            );
+            tooltips.InsertTooltip(new TooltipLine(Mod, $"FunkyModifier{i}", modifiers[i].ToString()) { IsModifier = true }, "PrefixDamage");
         }
     }
 
@@ -426,6 +405,11 @@ public partial class FunkyModifierItemModifier : GlobalItem
             modifiers = Array.Empty<FunkyModifier>();
         }
     }
+
+    public override void Load()
+    {
+        FunkyModifier.LoadLocalization(Mod);
+    }
 }
 
 public partial class ProjectileFunker : GlobalProjectile
@@ -518,11 +502,11 @@ public partial class ProjectileFunker : GlobalProjectile
             switch (funkyModifier.modifierType)
             {
                 case FunkyModifierType.ApplyDebuff:
-                {
-                    //target.AddBuff(funkyModifier.id, (int)funkyModifier.modifier);
-					GlobalNPCs.BuffNPC.AddBuff(target, funkyModifier.id, (int)funkyModifier.modifier, damageDone);
-                    break;
-                }
+                    {
+                        //target.AddBuff(funkyModifier.id, (int)funkyModifier.modifier);
+                        GlobalNPCs.BuffNPC.AddBuff(target, funkyModifier.id, (int)funkyModifier.modifier, damageDone);
+                        break;
+                    }
             }
         }
     }
