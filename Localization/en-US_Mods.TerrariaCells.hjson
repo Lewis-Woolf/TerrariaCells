@@ -350,6 +350,11 @@ Items: {
 		DisplayName: Item Pickup
 		Tooltip: ""
 	}
+
+	MusicBoxCrimson: {
+		Tooltip: ""
+		DisplayName: Music Box (Crimson | Aeolian - Sarcoma)
+	}
 }
 
 Projectiles: {
