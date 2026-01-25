@@ -139,6 +139,7 @@ namespace TerrariaCells.Common.ModPlayers
                 case ItemID.StaffofEarth:
                 case ItemID.DD2ExplosiveTrapT1Popper:
                 case ItemID.BouncyDynamite:
+                case ItemID.ChlorophyteDye:
                     return UnlockState.Locked;
             }
 
