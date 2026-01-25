@@ -146,21 +146,28 @@ namespace TerrariaCells.Common.ModPlayers
         }
         public void UpdateItemStatus(int itemType, Content.UI.UnlockState state)
         {
+            bool shouldDoUnlockText = true;
+            if(!ItemsJson.Instance.Category.TryGetValue(itemType, out ItemsJson.ItemCategory cat)) shouldDoUnlockText = false;
+            else if(cat == ItemsJson.ItemCategory.Potions || cat == ItemsJson.ItemCategory.Undefined) shouldDoUnlockText = false;
+        
             if (state == UnlockState.Locked) return;
             UnlockState unlocked = CheckUnlocks(itemType);
             if (unlocked != UnlockState.Found)
             {
-                string popupText = ContentSamples.ItemsByType[itemType].Name;
-                if(unlocked == UnlockState.Locked)
+                if(shouldDoUnlockText)
                 {
-                    popupText = PopupText_Unlock.Format(popupText);
+                    string popupText = ContentSamples.ItemsByType[itemType].Name;
+                    if(unlocked == UnlockState.Locked)
+                    {
+                        popupText = PopupText_Unlock.Format(popupText);
+                    }
+                    else
+                    {
+                        popupText = PopupText_Found.Format(popupText);
+                    }
+                    
+                    DoUnlockText(popupText, Color.CornflowerBlue);
                 }
-                else
-                {
-                    popupText = PopupText_Found.Format(popupText);
-                }
-                
-                DoUnlockText(popupText, Color.CornflowerBlue);
                 
                 _itemUnlocks[itemType] = state;
             }
