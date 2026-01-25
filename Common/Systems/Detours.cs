@@ -138,18 +138,15 @@ namespace TerrariaCells.Common.Systems
                 WorldGen.tempTenthAnniversaryWorldGen = false;
                 WorldGen.everythingWorldGen = false;
 
-                string worldName =
-                    "TerraCells-v" + ModLoader.GetMod("TerrariaCells").Version.ToString();
+                string worldName = $"TerraCells ({TerrariaCells.Instance.Version}-BETA)";
 
+                char[] replacements = [ '.', '-', '_', '~', ':', '*' ];
                 char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
                 string text = "";
                 foreach (char c in worldName)
                 {
-                    text += (!invalidFileNameChars.Contains(c)) ? ((c != ' ') ? c : '_') : '-';
+                    text += (!invalidFileNameChars.Contains(c)) ? c : replacements.First(x => !invalidFileNameChars.Contains(x));
                 }
-
-                text = text.Replace(".", "-");
-                text = text.Replace("*", "_");
 
                 worldName = text;
                 
