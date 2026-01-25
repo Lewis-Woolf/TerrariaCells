@@ -156,17 +156,16 @@ namespace TerrariaCells.Common.ModPlayers
             {
                 if(shouldDoUnlockText)
                 {
-                    string popupText = ContentSamples.ItemsByType[itemType].Name;
                     if(unlocked == UnlockState.Locked)
                     {
+                        string popupText = ContentSamples.ItemsByType[itemType].Name;
                         popupText = PopupText_Unlock.Format(popupText);
+                        DoUnlockText(popupText, Color.CornflowerBlue);
                     }
-                    else
-                    {
-                        popupText = PopupText_Found.Format(popupText);
-                    }
-                    
-                    DoUnlockText(popupText, Color.CornflowerBlue);
+                    // else
+                    // {
+                    //     popupText = PopupText_Found.Format(popupText);
+                    // }
                 }
                 
                 _itemUnlocks[itemType] = state;
