@@ -15,6 +15,7 @@ using Terraria.Chat;
 using Terraria.Localization;
 using TerrariaCells.Common.GlobalNPCs;
 using TerrariaCells.Content.UI;
+using TerrariaCells.Common.Utilities;
 
 namespace TerrariaCells.Common.ModPlayers
 {
@@ -97,6 +98,15 @@ namespace TerrariaCells.Common.ModPlayers
             }
         }
         
+        public void DoUnlockText(string text, Color? colour = null, int overheadTime = 360)
+        {
+            if (Player.whoAmI == Main.myPlayer)
+            {
+                Main.NewText(text, colour);
+                Player.chatOverhead.NewMessage(text, overheadTime);
+            }
+        }
+        
         #region Item Unlocks
 
         private const string _ITEM_KEYS = "Keys:Item";
@@ -137,7 +147,22 @@ namespace TerrariaCells.Common.ModPlayers
         {
             if (state == UnlockState.Locked) return;
             UnlockState unlocked = CheckUnlocks(itemType);
-            if (unlocked != UnlockState.Found) _itemUnlocks[itemType] = state;
+            if (unlocked != UnlockState.Found)
+            {
+                string popupText = ContentSamples.ItemsByType[itemType].Name;
+                if(unlocked == UnlockState.Locked)
+                {
+                    popupText = PopupText_Unlock.Format(popupText);
+                }
+                else
+                {
+                    popupText = PopupText_Found.Format(popupText);
+                }
+                
+                DoUnlockText(popupText, Color.CornflowerBlue);
+                
+                _itemUnlocks[itemType] = state;
+            }
         }
         
         public IEnumerable<int> GetDropOptions(IEnumerable<int> fromAllItems)
