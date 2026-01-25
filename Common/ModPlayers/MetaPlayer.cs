@@ -138,6 +138,7 @@ namespace TerrariaCells.Common.ModPlayers
                 case ItemID.IceBow:
                 case ItemID.StaffofEarth:
                 case ItemID.DD2ExplosiveTrapT1Popper:
+                case ItemID.BouncyDynamite:
                     return UnlockState.Locked;
             }
 
