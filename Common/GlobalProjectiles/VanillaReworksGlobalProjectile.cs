@@ -319,6 +319,17 @@ namespace TerrariaCells.Common.GlobalProjectiles
             }
         }
 
+        public override bool PreKill(Projectile projectile, int timeLeft)
+        {
+            switch(projectile.type)
+            {
+                case ProjectileID.Grenade:
+                    projectile.hostile = false;
+                    break;
+            }
+            return base.PreKill(projectile, timeLeft);
+        }
+
 		/*public override void AI(Projectile projectile)
         {
 			//Literally wasn't doing anything ?

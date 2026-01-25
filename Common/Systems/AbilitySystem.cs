@@ -51,6 +51,9 @@ namespace TerrariaCells.Common.Systems
 						if (new int[] { ProjectileID.SporeGas, ProjectileID.SporeGas2, ProjectileID.SporeGas3 }.Contains(proj.type))
 							proj.Kill();
 				};
+			RegisterAbility(ItemID.Beenade, new Ability(NumberHelpers.SecToFrames(10)));
+			RegisterAbility(ItemID.HornetStaff, new Ability(1));
+			RegisterAbility(ItemID.Grenade, new Ability(NumberHelpers.SecToFrames(5)));
 			RegisterAbility(ItemID.StaffoftheFrostHydra, new Ability(NumberHelpers.SecToFrames(30), 10.SecToFrames()));
 			RegisterAbility(ItemID.DD2ExplosiveTrapT1Popper, new Ability(NumberHelpers.SecToFrames(30), 30.SecToFrames(), new LineOfSight(), new InSolidTile().Invert()));
 			RegisterAbility(ItemID.MolotovCocktail, new Ability(NumberHelpers.SecToFrames(15)));
@@ -435,8 +438,7 @@ namespace TerrariaCells.Common.Systems
 			switch (item.type)
 			{
 				case ItemID.StormTigerStaff:
-					item.damage = 10;
-					break;
+				case ItemID.Beenade:
 				case ItemID.ClingerStaff:
 					item.damage = 10;
 					break;
@@ -454,6 +456,9 @@ namespace TerrariaCells.Common.Systems
 					break;
 				case ItemID.ManaPotion:
 					item.healMana = 200;
+					break;
+				case ItemID.Grenade:
+					item.damage = 40;
 					break;
 			}
 			if (item.buffType != 0 && item.buffTime != 0)

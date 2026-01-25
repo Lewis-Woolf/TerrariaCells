@@ -20,8 +20,13 @@ namespace TerrariaCells.Common.ModPlayers
 {
     public class MetaPlayer : ModPlayer
     {
+        private static LocalizedText PopupText_Unlock;
+        private static LocalizedText PopupText_Found;
         public override void Load()
         {
+            PopupText_Unlock = Mod.GetLocalization("popup.unlockItem", () => "You unlocked the {0}!");
+            PopupText_Found = Mod.GetLocalization("popup.foundItem", () => "You found the {0}!");
+            
             for(int i = 0; i < ProgressionCount; i++)
             {
                 _ = Mod.GetLocalization("ui.metaprogress.entry_"+i, () => "Undefined");
@@ -119,6 +124,10 @@ namespace TerrariaCells.Common.ModPlayers
                     
                 case ItemID.SniperRifle:
                 case ItemID.ReconScope:
+                
+                case ItemID.IceBow:
+                case ItemID.StaffofEarth:
+                case ItemID.DD2ExplosiveTrapT1Popper:
                     return UnlockState.Locked;
             }
 

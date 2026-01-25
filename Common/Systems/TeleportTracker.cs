@@ -61,7 +61,7 @@ public class TeleportTracker : ModSystem
 
     public bool CanTeleport(string nextLevel)
     {
-        return StaticFileAccess.Instance.WorldGenData.LevelPositions.TryGetValue(nextLevel, out _);
+        return StaticFileAccess.Instance.WorldGenData.LevelPositions?.TryGetValue(nextLevel, out _)??false;
     }
 
     public void Teleport(string destination)

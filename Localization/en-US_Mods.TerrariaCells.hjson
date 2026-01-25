@@ -711,3 +711,8 @@ Modifiers: {
 }
 
 "": Duration {0} {^0second;seconds}
+
+popup: {
+	foundItem: You found the {0}!
+	unlockItem: You unlocked the {0}!
+}
