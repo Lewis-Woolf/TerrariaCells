@@ -4,7 +4,12 @@ Configs: {
 
 		DisableZoom: {
 			Label: Disable Zoom Cap
-			Tooltip: Disables the >175% cap on the game's zoom
+			Tooltip:
+				'''
+					Disables the >175% cap on the game's zoom
+					[c/ff6633:WARNING]: This is not the recommended experience.
+					Certain interactions may not work as intended, and the game feel will be vastly different.
+				'''
 		}
 
 		Headers: {
