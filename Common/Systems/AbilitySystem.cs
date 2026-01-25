@@ -52,7 +52,7 @@ namespace TerrariaCells.Common.Systems
 							proj.Kill();
 				};
 			RegisterAbility(ItemID.Beenade, new Ability(NumberHelpers.SecToFrames(10)));
-			RegisterAbility(ItemID.HornetStaff, new Ability(1));
+			RegisterAbility(ItemID.HornetStaff, new Ability(NumberHelpers.SecToFrames(30), NumberHelpers.SecToFrames(30)));
 			RegisterAbility(ItemID.Grenade, new Ability(NumberHelpers.SecToFrames(5)));
 			RegisterAbility(ItemID.StaffoftheFrostHydra, new Ability(NumberHelpers.SecToFrames(30), 10.SecToFrames()));
 			RegisterAbility(ItemID.DD2ExplosiveTrapT1Popper, new Ability(NumberHelpers.SecToFrames(30), 30.SecToFrames(), new LineOfSight(), new InSolidTile().Invert()));
@@ -306,7 +306,7 @@ namespace TerrariaCells.Common.Systems
 		public class LineOfSight : AbilityCondition
 		{
 			public override bool CheckCondition(Player player)
-				=> Collision.CanHitLine(player.position, player.width, player.height, Main.MouseWorld, 1, 1);
+				=> Collision.CanHitLine(player.position, player.width, player.height, Main.MouseWorld, 16, 16);
 		}
 		public class InSolidTile : AbilityCondition
 		{

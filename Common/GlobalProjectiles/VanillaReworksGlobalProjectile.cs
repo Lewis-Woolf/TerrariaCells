@@ -34,6 +34,11 @@ namespace TerrariaCells.Common.GlobalProjectiles
         public bool ForceCrit = false;
         public override bool InstancePerEntity => true;
 
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.RocketsSkipDamageForPlayers[ProjectileID.Grenade] = true;
+        }
+
         public override void SetDefaults(Projectile projectile)
 		{
 			switch (projectile.type)
@@ -317,17 +322,6 @@ namespace TerrariaCells.Common.GlobalProjectiles
             {
                 projectile.timeLeft = 90;
             }
-        }
-
-        public override bool PreKill(Projectile projectile, int timeLeft)
-        {
-            switch(projectile.type)
-            {
-                case ProjectileID.Grenade:
-                    projectile.hostile = false;
-                    break;
-            }
-            return base.PreKill(projectile, timeLeft);
         }
 
 		/*public override void AI(Projectile projectile)
