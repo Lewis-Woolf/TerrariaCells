@@ -155,8 +155,8 @@
       { "Name" : "Merchant", "Weight" : 1},
       { "Name" : "ArmsDealer", "Weight" : 1 }
                     ],
-        "X" : 505,
-        "Y" : 89
+        "X" : 366,
+        "Y" : 141
     },
     {
         "Name": "CultistDevote",
