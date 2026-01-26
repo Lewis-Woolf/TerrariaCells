@@ -49,10 +49,11 @@ public class ChestLootSpawner : ModSystem, IEntitySource
         {
             return;
         }
-        if (DevConfig.Instance?.EnableChestChanges == true)
+        if (DevConfig.Instance?.EnableChestChanges == true && Main.chest is not null)
         {
             foreach (int chest in lootedChests)
             {
+                if(Main.chest[chest] is null) continue;
                 Main.chest[chest].frame = 0;
                 Main.chest[chest].frameCounter = 0;
             }
