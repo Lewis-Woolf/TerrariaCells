@@ -90,8 +90,8 @@ public partial class FunkyModifierItemModifier : GlobalItem
         // FunkyModifier.FrenzyFire(1.40f, 0.75f),
         FunkyModifier.DamageOnDebuff(1.50f, BuffID.OnFire),
         FunkyModifier.DamageOnDebuff(1.50f, BuffID.Poisoned),
-        FunkyModifier.CustomBulletAmmo(ProjectileID.ExplosiveBullet),
-        FunkyModifier.CustomBulletAmmo(ProjectileID.BulletHighVelocity),
+        FunkyModifier.CustomBulletAmmo(ProjectileID.ExplosiveBullet, ItemID.ExplodingBullet),
+        FunkyModifier.CustomBulletAmmo(ProjectileID.BulletHighVelocity, ItemID.HighVelocityBullet),
         FunkyModifier.ApplyDebuff(BuffID.Poisoned, 30f),
         FunkyModifier.ApplyDebuff(BuffID.OnFire),
         FunkyModifier.DropMoreMana(2),
@@ -296,10 +296,11 @@ public struct FunkyModifier(FunkyModifierType type, float modifier)
             id = buffID,
         };
 
-    public static FunkyModifier CustomBulletAmmo(int ammoItemID) =>
+    public static FunkyModifier CustomBulletAmmo(int projID, int ammoID) =>
         new FunkyModifier(FunkyModifierType.CustomAmmoBullet, 0f) with
         {
-            id = ammoItemID,
+            id = ammoID,
+            intModifier = projID,
         };
 
     public static FunkyModifier ApplyDebuff(int buffID, float timeSeconds = 10f) =>
@@ -324,9 +325,9 @@ public struct FunkyModifier(FunkyModifierType type, float modifier)
             FunkyModifierType.ApplyDebuff => Terraria.Lang.GetBuffName(id),
             FunkyModifierType.DamageOnDebuff => Terraria.Lang.GetBuffName(id),
 
-            FunkyModifierType.CustomAmmoBullet => Terraria.Lang.GetProjectileName(id).Value,
-            FunkyModifierType.CustomAmmoArrow => Terraria.Lang.GetProjectileName(id).Value,
-            FunkyModifierType.CustomAmmoRocket => Terraria.Lang.GetProjectileName(id).Value,
+            FunkyModifierType.CustomAmmoBullet => Terraria.Lang.GetItemNameValue(id),
+            FunkyModifierType.CustomAmmoArrow => Terraria.Lang.GetItemNameValue(id),
+            FunkyModifierType.CustomAmmoRocket => Terraria.Lang.GetItemNameValue(id),
 
             _ => string.Empty,
         };

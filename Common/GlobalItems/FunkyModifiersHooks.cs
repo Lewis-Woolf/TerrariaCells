@@ -130,23 +130,6 @@ public partial class FunkyModifierItemModifier : GlobalItem
         }
     }
 
-    public List<TooltipLine> GetTooltips(Item item)
-    {
-        if (!item.TryGetGlobalItem(out FunkyModifierItemModifier funkyModifiers))
-        {
-            return [];
-        }
-        return (funkyModifiers.modifiers ?? [])
-            .Select(
-                (x, i) =>
-                    new TooltipLine(Mod, "FunkyModifier" + i.ToString(), x.ToString())
-                    {
-                        IsModifier = true,
-                    }
-            )
-            .ToList();
-    }
-
     public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
     {
         if (!item.TryGetGlobalItem(out FunkyModifierItemModifier funkyModifiers))
@@ -303,7 +286,8 @@ public partial class FunkyModifierItemModifier : GlobalItem
                 case FunkyModifierType.CustomAmmoArrow:
                 case FunkyModifierType.CustomAmmoRocket:
                 {
-                    type = modifier.id;
+                    //Swapped from ID merely to make LocalizedText.Format simpler
+                    type = modifier.intModifier;
                     break;
                 }
             }
