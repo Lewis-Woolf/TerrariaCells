@@ -109,6 +109,12 @@ namespace TerrariaCells.Content.Packets
                     Main.LocalPlayer.Spawn(PlayerSpawnContext.ReviveFromDeath);
                     Main.LocalPlayer.ghost = false;
                 }
+                
+                Main.LocalPlayer.statMana+=9999;
+                foreach(var sk1l in Main.LocalPlayer.GetModPlayer<AbilityHandler>().Abilities)
+                {
+                    sk1l.cooldownTimer = 0;
+                }
             }
         }
     }

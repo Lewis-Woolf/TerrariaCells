@@ -397,6 +397,16 @@ public class TeleportTracker : ModSystem
             }
             RewardTrackerSystem.UpdateTracker(RewardTrackerSystem.TrackerAction.Pause);
             RewardTrackerSystem.UpdateChests_OnTeleport(tileCoords);
+            
+            if(Main.netMode == 0)
+            {
+                Main.LocalPlayer.statMana += 9999;
+                ref var skillz = ref Main.LocalPlayer.GetModPlayer<AbilityHandler>().Abilities;
+                foreach (var ability in skillz)
+                {
+                    ability.cooldownTimer = 0;
+                }
+            }
         }
         else
         {

@@ -65,6 +65,7 @@ public class DeathReset : ModPlayer, IEntitySource
             Player.GetModPlayer<LifeModPlayer>().extraHealth = 0;
             Common.GlobalNPCs.NPCTypes.Crimson.BrainOfCthulhu.SpawnPos = null;
             GlobalNPCs.NPCTypes.Corruption.EaterOfWorlds.SpawnPos = null;
+            Player.statLife = Player.statLifeMax2;
             
             RunReset.Invoke(Player, RunReset.ResetContext.NewWorld);
         }
