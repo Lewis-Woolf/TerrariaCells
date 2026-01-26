@@ -129,18 +129,15 @@ namespace TerrariaCells.Common.GlobalNPCs
         private void UpdateNPCShop(NPC npc, IReadOnlyList<int> itemTypes, int itemLevel, int min = 1, int max = 40)
         {
             IReadOnlyList<int> selection = new List<int>(itemTypes);
+            foreach (Player player in Main.ActivePlayers)
+            {
+                Common.ModPlayers.MetaPlayer metaPlayer = player.GetModPlayer<ModPlayers.MetaPlayer>();
+                selection = [.. metaPlayer.GetDropOptions(selection)];
+            }
             if (Configs.DevConfig.Instance.PlaytesterShops || min >= itemTypes.Count || min == -1)
             {
                 selectedItems = selection.Select(x => new ItemDef(x, itemLevel)).ToArray();
                 return;
-            }
-            else
-            {
-                foreach(Player player in Main.ActivePlayers)
-                {
-                    Common.ModPlayers.MetaPlayer metaPlayer = player.GetModPlayer<ModPlayers.MetaPlayer>();
-                    selection = metaPlayer.GetDropOptions(selection).ToArray();
-                }
             }
             List<int> items = new List<int>();
             for (int i = 0; i < selection.Count; i++)
