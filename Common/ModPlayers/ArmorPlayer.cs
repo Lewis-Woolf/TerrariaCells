@@ -51,6 +51,7 @@ namespace TerrariaCells.Common.ModPlayers
         float distanceUntilFlameSpawn = 0;
 
         public int goldArmorCount;
+        public bool goldChestplate;
         public bool GoldSetBonus => goldArmorCount == 3;
 
         public override void ResetEffects()
@@ -68,6 +69,15 @@ namespace TerrariaCells.Common.ModPlayers
             moltenBreastplate = false;
             moltenGreaves = false;
             goldArmorCount = 0;
+            goldChestplate = false;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if(goldChestplate)
+            {
+                target.AddBuff(BuffID.Midas, 60*10);
+            }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -83,9 +93,9 @@ namespace TerrariaCells.Common.ModPlayers
             
             if(Main.netMode != 2 && Player.whoAmI == Main.myPlayer)
             {
-                if(target.CanBeUsedForHitEffects() && !NPCID.Sets.NeverDropsResourcePickups[target.type] && goldArmorCount > 0)
+                if(target.CanBeUsedForHitEffects() && !NPCID.Sets.NeverDropsResourcePickups[target.type] && GoldSetBonus)
                 {
-                    int amountToDrop = Main.rand.Next(1_50 * goldArmorCount, 3_33 * goldArmorCount);
+                    int amountToDrop = Main.rand.Next(50, 3_00);
                     int copper = amountToDrop % 100;
                     int silver = (amountToDrop / 100) % 100;
                     int gold = (amountToDrop / 10000) % 100;
@@ -246,17 +256,6 @@ namespace TerrariaCells.Common.ModPlayers
 
         public override void PostUpdateEquips()
         {
-            if (GoldSetBonus)
-            {
-                long coinsCount = Utils.CoinsCount(out _, Player.inventory, 58, 57, 56, 55, 54);
-                float dmgIncrease = coinsCount / 1_00_00f; //1 Gold Coin = 1%
-                dmgIncrease *= 0.01f; //Change to decimal representation
-
-                Player.GetDamage(DamageClass.Generic) += dmgIncrease;
-
-                //Player.setBonus = "1% increased damage for every Gold Coin you have\n100% increased damage for every Platinum Coin you have";
-            }
-
             // if (moltenArmorSet)
             //     Player.setBonus = "Your Fire effects are replaced with Hellfire";
             // if (jungleArmorSet)

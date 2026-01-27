@@ -547,20 +547,20 @@ Tooltips: {
 			'''
 
 		GoldHelmet: {
-			SetBonus:
-				'''
-				1% increased damage for every Gold Coin you have
-				100% increased damage for every Platinum Coin you have
-				'''
+			SetBonus: Enemies drop money on hit
 			Tooltip:
 				'''
-				10% increased damage
-				Enemies drop money on hit
+				{0}% increased damage
+				Increases with current amount of money held
 				'''
 		}
 
-		GoldChainmail.Tooltip: Enemies drop money on hit
-		GoldGreaves.Tooltip: Enemies drop money on hit
+		GoldChainmail.Tooltip: Slain enemies drop more gold
+		GoldGreaves.Tooltip:
+			'''
+			{0}% increased movement speed
+			Increases with current amount of money held
+			'''
 	}
 }
 

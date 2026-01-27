@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 using TerrariaCells.Common.Configs;
 using TerrariaCells.Common.GlobalProjectiles;
 using TerrariaCells.Common.Items;
@@ -99,6 +100,48 @@ public partial class VanillaReworksGlobalItem
                 }
             }
         }
-        return;
+        
+        PostModifyTooltips.Invoke(item, tooltips);
+    }
+}
+//I'd have liked this not to be necessary, using monomod hooks or something
+//And, technically, I can replicate tMod's logic for tooltip construction
+//And then just leave it be.
+
+//But that's really obnoxious, and I can just do this instead.
+//SO! We'll be using these when we need to modify tooltips, because
+//We need to defer any changes (eg, formatting) until AFTER the above
+//System has updated items' tooltips
+public class PostModifyTooltips : ILoadable
+{
+    public interface IItem
+    {
+        public void PostModifyTooltips(List<TooltipLine> tooltips);
+    }
+    public interface IGlobal
+    {
+        public void PostModifyTooltips(Item item, List<TooltipLine> tooltips);
+    }
+
+    internal static void Invoke(Item item, List<TooltipLine> tooltips)
+    {
+        if (item.ModItem is IItem i)
+            i.PostModifyTooltips(tooltips);
+
+        foreach (GlobalItem g in _hook.Enumerate(item))
+        {
+            if (g is not IGlobal ig) continue;
+
+            ig.PostModifyTooltips(item, tooltips);
+        }
+    }
+    private static GlobalHookList<GlobalItem> _hook;
+    public void Load(Mod mod)
+    {
+        _hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(e => ((IGlobal)e).PostModifyTooltips));
+    }
+    public void Unload()
+    {
+        _hook = null;
     }
 }
